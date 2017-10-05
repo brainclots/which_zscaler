@@ -8,7 +8,7 @@ Author:
             |__] |  \ | |  | | \|    | \_ |___ |__|  |   /__
             Brian.Klotz@nike.com
 
-Version:    0.1
+Version:    1.0
 Date:       October 2017
 '''
 import argparse
@@ -105,6 +105,9 @@ def main():
     asa_peers_command = 'show run crypto map | i 65000 set peer'
     asa_crypto_command = 'show run crypto map | i interface'
 
+    start = datetime.now()
+    print('Start time: ' + str(start))
+
     # Build dictionary of devices
     for row in range(1, len(input_info) + 1):
         device_dict = {'host': input_info[row]['host'],
@@ -113,9 +116,6 @@ def main():
                        'password': password,
                        'secret': password
                        }
-        print('-'*79)
-        print('Connecting to ' + device_dict['host'] + ' (' +
-              device_dict['device_type'] + ') ...')
         asa_peers_output = ''
         zscaler_node_1 = ''
         zscaler_node_2 = ''
@@ -127,10 +127,11 @@ def main():
         asa_index = 1  # Start count at 1 so entries start at row 2
         rtr_index = 1
 
-        try:  # Connect to device
-            start = datetime.now()
-            print('Start time: ' + str(start))
+        print('-'*79)
+        print('Connecting to ' + device_dict['host'] + ' (' +
+              device_dict['device_type'] + ') ...')
 
+        try:  # Connect to device
             connection = netmiko.ConnectHandler(**device_dict)
             logger.info('Successfully connected to %s', device_dict['host'])
             connection.enable()
@@ -212,6 +213,21 @@ def main():
     print('End time: ' + str(end))
     elapsed = end - start
     print('Elapsed time: ' + str(elapsed))
+    #  Format output columns
+    ws1.column_dimensions['A'].width = 20
+    ws1.column_dimensions['B'].width = 13
+    ws1.column_dimensions['C'].width = 13
+    ws1.column_dimensions['D'].width = 14
+    ws1.column_dimensions['E'].width = 14
+    ws2.column_dimensions['A'].width = 20
+    ws2.column_dimensions['B'].width = 13
+    ws2.column_dimensions['C'].width = 21
+    ws2.column_dimensions['D'].width = 26
+    ws2.column_dimensions['E'].width = 22
+    ws2.column_dimensions['F'].width = 13
+    ws2.column_dimensions['G'].width = 21
+    ws2.column_dimensions['H'].width = 27
+    ws2.column_dimensions['I'].width = 21
     wb.save(filename)
     # Open spreadsheet
     os.system('open %s' % filename)
