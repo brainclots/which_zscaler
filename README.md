@@ -8,5 +8,5 @@ switches) or 'cisco_asa' for firewalls.
 
 The script will log into each device, one at a time, run the commands to
 obtain the desired output, parsing the key information and writing it to
-another spreadsheet named "ZScaler_info_<date>.xlsx". This file will
+another spreadsheet named "ZScaler_info_&lt;date&gt;.xlsx". This file will
 automatically open when the script completes.
