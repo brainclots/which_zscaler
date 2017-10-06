@@ -268,7 +268,7 @@ def main():
     ws2.column_dimensions['I'].width = 21
     wb.save(filename)
     # Open spreadsheet
-    #os.system('open %s' % filename)
+    os.system('open %s' % filename)
 
 
 main()
